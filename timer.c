@@ -12,21 +12,32 @@ uint16_t OCRvalue(uint16_t prescaler, uint8_t milliseconds){
 }
 
 void timer_init() {
-    // timer0 
-    // CTC-mod
-    TCCR0A &= ~(1 << WGM00);
+    // timer0
+    // fast pwm
     TCCR0A |= (1 << WGM01);
-    TCCR0A &= ~(1 << WGM02);
-    
+    TCCR0A |= (1 << WGM00);
 
-    // sets prescaler to 1024 
+    // prescaler = 64
     TCCR0B |= (1 << CS00);
-    TCCR0B &= ~(1 << CS01);
-    TCCR0B |= (1 << CS02);
+    TCCR0B |= (1 << CS01);
 
-    // Frequency
-    OCR0A = OCRvalue(1024, 10);
+    // non-inverting mode, clear OC2A on compare match and set OC2A at bottom
+    TCCR0A |= (1 << COM0A1);
 
-    TIMSK0 |= (1 << OCIE0A); 
+
+    // timer2
+    // CTC mode
+    TCCR2A |= (1 << WGM21);
+
+    TCNT2 = 0;
+
+    // prescaler = 1024
+    TCCR2B |= (1 << CS22);
+    TCCR2B |= (1 << CS21);
+    TCCR2B |= (1 << CS20);
+
+    OCR2A = OCRvalue(1024, 10);
+
+    TIMSK2 |= (1 << OCIE2A); 
 }
 
