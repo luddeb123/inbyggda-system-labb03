@@ -2,6 +2,7 @@ BIN = lab3# namn på output-binären
 
 # Lista på C-ﬁler ingående i binären
 SOURCES = \
+		  button.c \
 		  main.c \
 		  serial.c \
 		  led.c \
